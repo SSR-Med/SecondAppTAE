@@ -1,4 +1,7 @@
+from tkinter import font
 import streamlit as st
+from PIL import Image
+
 
 st.title("Cálculo financiero")
 st.subheader("¡Bienvenido!")
@@ -167,6 +170,12 @@ def retornarPorcentaje():
             return (i*10)+10
     return 0
 
+# Se importan la imagen, numero es el numero para diferenciar la imagen
+def buscarImagen(numero):
+    path = 'Sinfondos/'+str(numero)+'.png'
+    image = Image.open(path)
+    return image
+
 
 if st.button("Calcula tu puntaje crediticio"):
     st.write("Tu puntaje crediticio es de:", scoreCard)
@@ -174,5 +183,10 @@ if st.button("Calcula tu puntaje crediticio"):
         st.write("Tu solicitud de crédito probablemente será aprobada.")
     else:
         st.write("Lastimosamente es improbable de que tu crédito sea aprobado.")
+    
+    porcentaje = retornarPorcentaje()
     st.write("Tu puntaje crediticio está encima del",
-             retornarPorcentaje(), "% de los puntajes crediticios de la población.")
+             porcentaje, "% de los puntajes crediticios de la población.")
+    if porcentaje >= 10:
+        imagen = buscarImagen(porcentaje)
+        st.image(imagen, caption='Ilustración de comparativa del usuario con el resto de la población')
